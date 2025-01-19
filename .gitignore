@@ -10,7 +10,7 @@ logs/
 *.log.*
 
 # Tokens
-tokens/
+tokens/**/
 
 # Dependency directories
 jspm_packages/
