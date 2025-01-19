@@ -6,8 +6,8 @@ const sessionValidator = (req, res, next) => {
 
   if (!client) {
     return res.status(400).json({
-      status: 'error',
-      message: `Session ${sessionName} not initialized`,
+      status: 'erro',
+      mensagem: `Sessão ${sessionName} não inicializada`,
     });
   }
 

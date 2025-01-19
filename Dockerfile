@@ -1,35 +1,3 @@
-# FROM node:18-slim
-
-# # Instalar dependências necessárias para o Chrome
-# RUN apt-get update && apt-get install -y \
-#     chromium \
-#     chromium-driver \
-#     fonts-ipafont-gothic \
-#     fonts-wqy-zenhei \
-#     fonts-thai-tlwg \
-#     fonts-kacst \
-#     fonts-freefont-ttf \
-#     libxss1 \
-#     --no-install-recommends \
-#     && rm -rf /var/lib/apt/lists/*
-
-# # Definir variáveis de ambiente para o Chrome
-# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-# ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-
-# WORKDIR /app
-
-# COPY package*.json ./
-
-# RUN npm install
-
-# COPY . .
-
-# EXPOSE 3000
-
-# CMD ["node", "./src/app.js"]
-
-# Use uma imagem base menor
 FROM node:18-alpine
 
 # Instalar dependências necessárias para o Chrome

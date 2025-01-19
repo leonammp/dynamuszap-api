@@ -14,19 +14,19 @@ app.use(cors());
 app.use(express.json({ limit: APP_CONFIG.MAX_REQUEST_SIZE }));
 app.use(express.urlencoded({ limit: APP_CONFIG.MAX_REQUEST_SIZE, extended: true }));
 
-// Swagger documentation
+// Swagger documentação
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Rate limiting
+// Limitação de taxa
 app.use('/api/', apiLimiter);
 
-// Routes
+// Rotas
 app.use('/api/whatsapp', whatsappRoutes);
 
-// Error handling
+// Tratamento de erros
 app.use(errorHandler);
 
 app.listen(APP_CONFIG.PORT, () => {
-  console.log(`Server running on port ${APP_CONFIG.PORT}`);
-  console.log(`Swagger documentation available at http://localhost:${APP_CONFIG.PORT}/api-docs`);
+  console.log(`Servidor rodando na porta ${APP_CONFIG.PORT}`);
+  console.log(`Documentação Swagger disponível em http://localhost:${APP_CONFIG.PORT}/api-docs`);
 });

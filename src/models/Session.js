@@ -14,6 +14,14 @@ class Session {
     exists(sessionName) {
       return this.sessions.has(sessionName);
     }
+
+    remove(sessionName) {
+      this.sessions.delete(sessionName);
+    }
+  
+    getAllSessions() {
+      return Array.from(this.sessions.keys());
+    }
   }
   
   module.exports = new Session();

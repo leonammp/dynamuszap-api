@@ -4,7 +4,7 @@ const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      status: "error",
+      status: "erro",
       errors: errors.array(),
     });
   }
@@ -15,9 +15,9 @@ const startSessionValidation = [
   body("sessionName")
     .trim()
     .notEmpty()
-    .withMessage("Session name is required")
+    .withMessage("Nome da sessão é obrigatório")
     .isLength({ min: 3 })
-    .withMessage("Session name must be at least 3 characters long"),
+    .withMessage("O nome da sessão deve ter pelo menos 3 caracteres"),
   validate,
 ];
 
@@ -25,14 +25,14 @@ const sendMessageValidation = [
   param("sessionName")
     .trim()
     .notEmpty()
-    .withMessage("Session name is required"),
+    .withMessage("Nome da sessão é obrigatório"),
   body("number")
     .trim()
     .notEmpty()
-    .withMessage("Phone number is required")
+    .withMessage("Número de telefone é obrigatório")
     .matches(/^\d{10,14}$/)
-    .withMessage("Invalid phone number format"),
-  body("message").trim().notEmpty().withMessage("Message is required"),
+    .withMessage("Formato de número de telefone inválido"),
+  body("message").trim().notEmpty().withMessage("Mensagem é obrigatória"),
   validate,
 ];
 
@@ -40,13 +40,13 @@ const checkNumberValidation = [
   param("sessionName")
     .trim()
     .notEmpty()
-    .withMessage("Session name is required"),
+    .withMessage("Nome da sessão é obrigatório"),
   body("number")
     .trim()
     .notEmpty()
-    .withMessage("Phone number is required")
+    .withMessage("Número de telefone é obrigatório")
     .matches(/^\d{10,14}$/)
-    .withMessage("Invalid phone number format"),
+    .withMessage("Formato de número de telefone inválido"),
   validate,
 ];
 
@@ -54,21 +54,21 @@ const sendPdfValidation = [
   param("sessionName")
     .trim()
     .notEmpty()
-    .withMessage("Session name is required"),
+    .withMessage("Nome da sessão é obrigatório"),
   body("number")
     .trim()
     .notEmpty()
-    .withMessage("Phone number is required")
+    .withMessage("Número de telefone é obrigatório")
     .matches(/^\d{10,14}$/)
-    .withMessage("Invalid phone number format"),
+    .withMessage("Formato de número de telefone inválido"),
   body("base64PDF")
     .trim()
     .notEmpty()
-    .withMessage("PDF content is required")
+    .withMessage("Conteúdo do PDF é obrigatório")
     .matches(/^data:application\/pdf;base64,/)
-    .withMessage("Invalid PDF base64 format"),
-  body("fileName").optional().isString().withMessage("Invalid file name"),
-  body("message").optional().isString().withMessage("Invalid message format"),
+    .withMessage("Formato de base64 do PDF inválido"),
+  body("fileName").optional().isString().withMessage("Nome de arquivo inválido"),
+  body("message").optional().isString().withMessage("Formato de mensagem inválido"),
   validate,
 ];
 

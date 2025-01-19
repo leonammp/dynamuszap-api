@@ -1,22 +1,73 @@
-const WhatsAppService = require('../services/whatsappService.js');
-const Session = require('../models/Session');
-
+const WhatsAppService = require("../services/whatsappService.js");
+const MenuService = require("../services/MenuService.js");
+const Session = require("../models/Session");
+const fs = require("fs");
+const path = require("path");
 class WhatsAppController {
+  /**
+   * Verifica se o arquivo SingletonLock existe para uma sessão.
+   * @param {string} sessionName - Nome da sessão.
+   * @returns {boolean} - Retorna true se o arquivo existir, caso contrário false.
+   */
+  fileSingletonLockExists(sessionName) {
+    const filePath = path.join(
+      __dirname,
+      `../tokens/${sessionName}/SingletonLock`
+    );
+    return fs.existsSync(filePath);
+  }
+
   async startSession(req, res) {
+    const { sessionName } = req.body;
+
     try {
-      const { sessionName } = req.body;
-      const client = await WhatsAppService.createSession(sessionName, (qrCode) => {
-        res.json({ status: 'success', qrCode });
-      });
+      // Constrói o caminho do diretório da sessão
+      const lockDirPath = path.resolve(
+        __dirname,
+        "..",
+        "..",
+        "tokens",
+        sessionName
+      );
+
+      const client = await WhatsAppService.createSession(
+        sessionName,
+        (qrCode) => {
+          res.json({ status: "success", qrCode });
+        }
+      );
 
       Session.add(sessionName, client);
 
-      client.onMessage((message) => {
-        console.log('Message received:', message);
+      // client.onMessage((message) => {
+      //   console.log('Message received:', message);
+      // });
+
+      client.onMessage(async (message) => {
+        if (process.env.BOT_ATIVO === "S") {
+          console.log("Bot ATIVO");
+          try {
+            if (MenuService.isDirectMessage(message)) {
+              await MenuService.handleMessage(client, message);
+            }
+            // Mensagens de grupo são silenciosamente ignoradas
+          } catch (error) {
+            console.error("Erro ao processar a mensagem:", error);
+            // Só envia mensagem de erro para mensagens diretas
+            if (MenuService.isDirectMessage(message)) {
+              await client.sendText(
+                message.from,
+                "Desculpe, ocorreu um erro. Por favor, tente novamente."
+              );
+            }
+          }
+        }
+        console.log("Bot INATIVO");
+        console.log("Message received:", message);
       });
     } catch (error) {
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: error.message,
       });
     }
@@ -27,23 +78,30 @@ class WhatsAppController {
       const { number, message } = req.body;
       const client = req.whatsappClient;
 
-      const isValidNumber = await WhatsAppService.isValidWhatsAppNumber(client, number);
+      const isValidNumber = await WhatsAppService.isValidWhatsAppNumber(
+        client,
+        number
+      );
       if (!isValidNumber) {
         return res.status(400).json({
-          status: 'error',
-          message: 'Invalid WhatsApp number',
+          status: "error",
+          message: "Número de WhatsApp inválido",
         });
       }
 
-      const result = await WhatsAppService.sendTextMessage(client, number, message);
+      const result = await WhatsAppService.sendTextMessage(
+        client,
+        number,
+        message
+      );
       res.json({
-        status: 'success',
-        message: 'Message sent successfully',
+        status: "success",
+        message: "Mensagem enviada com sucesso",
         data: result,
       });
     } catch (error) {
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: error.message,
       });
     }
@@ -54,18 +112,23 @@ class WhatsAppController {
       const { number } = req.body;
       const client = req.whatsappClient;
 
-      const isValid = await WhatsAppService.isValidWhatsAppNumber(client, number);
+      const isValid = await WhatsAppService.isValidWhatsAppNumber(
+        client,
+        number
+      );
       res.json({
-        status: 'success',
+        status: "success",
         data: {
           number,
           isValid,
-          message: isValid ? 'Valid WhatsApp number' : 'Invalid WhatsApp number',
+          message: isValid
+            ? "Número de WhatsApp válido"
+            : "Número de WhatsApp inválido",
         },
       });
     } catch (error) {
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: error.message,
       });
     }
@@ -76,11 +139,14 @@ class WhatsAppController {
       const { number, message, base64PDF, fileName } = req.body;
       const client = req.whatsappClient;
 
-      const isValidNumber = await WhatsAppService.isValidWhatsAppNumber(client, number);
+      const isValidNumber = await WhatsAppService.isValidWhatsAppNumber(
+        client,
+        number
+      );
       if (!isValidNumber) {
         return res.status(400).json({
-          status: 'error',
-          message: 'Invalid WhatsApp number',
+          status: "error",
+          message: "Número de WhatsApp inválido",
         });
       }
 
@@ -93,13 +159,13 @@ class WhatsAppController {
       );
 
       res.json({
-        status: 'success',
-        message: 'PDF sent successfully',
+        status: "success",
+        message: "PDF enviado com sucesso",
         data: result,
       });
     } catch (error) {
       res.status(500).json({
-        status: 'error',
+        status: "error",
         message: error.message,
       });
     }

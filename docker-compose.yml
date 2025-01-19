@@ -8,8 +8,6 @@ services:
       - .:/app
       - /app/node_modules
       - ./tokens:/app/tokens
-    environment:
-      - NODE_ENV=development
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    env_file:
+      - .env
     restart: unless-stopped

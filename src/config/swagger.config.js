@@ -1,50 +1,50 @@
-const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerJsdoc = require("swagger-jsdoc");
 
 const options = {
   definition: {
-    openapi: '3.0.0',
+    openapi: "3.0.0",
     info: {
-      title: 'WhatsApp API',
-      version: '1.0.0',
-      description: 'WhatsApp API using venom-bot',
+      title: "API do WhatsApp",
+      version: "1.0.0",
+      description: "API do WhatsApp usando venom-bot",
     },
     servers: [
       {
-        url: 'http://localhost:3000',
-        description: 'Development server',
+        url: process.env.URLBASE || "http://localhost:3000",
+        description: "Servidor de desenvolvimento",
       },
     ],
     components: {
       schemas: {
         Error: {
-          type: 'object',
+          type: "object",
           properties: {
             status: {
-              type: 'string',
-              example: 'error',
+              type: "string",
+              example: "error",
             },
             message: {
-              type: 'string',
-              example: 'Error message',
+              type: "string",
+              example: "Mensagem de erro",
             },
           },
         },
         Success: {
-          type: 'object',
+          type: "object",
           properties: {
             status: {
-              type: 'string',
-              example: 'success',
+              type: "string",
+              example: "success",
             },
             data: {
-              type: 'object',
+              type: "object",
             },
           },
         },
       },
     },
   },
-  apis: ['./src/routes/*.js'],
+  apis: ["./src/routes/*.js"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

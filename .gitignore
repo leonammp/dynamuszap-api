@@ -2,6 +2,7 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+coverage/
 
 # Logs
 logs/
@@ -34,10 +35,11 @@ jspm_packages/
 
 # IDEs and editors
 .idea/
-.vscode/
 *.sublime-project
 *.sublime-workspace
 
 # Miscellaneous
 *.swp
 *.swo
+
+.git

@@ -1,14 +1,42 @@
-const venom = require('venom-bot');
+const venom = require("venom-bot");
 
 class WhatsAppService {
+  static async addToQueue(sessionName, type, params) {
+    const client = sessions.get(sessionName);
+    if (!client) {
+      return { status: "ERROR", message: "Session not found" };
+    }
+
+    try {
+      const queue = messageQueue.getQueue(sessionName);
+      await new Promise((resolve, reject) => {
+        queue.push(
+          {
+            type,
+            client,
+            ...params,
+          },
+          (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+          }
+        );
+      });
+
+      return { status: "success", message: `${type} adicionado na fila` };
+    } catch (error) {
+      return { status: "error", message: error.message };
+    }
+  }
+
   async createSession(sessionName, onQrCode) {
     return venom.create(
       sessionName,
       onQrCode,
-      (statusSession) => console.log('Status Session:', statusSession),
+      (statusSession) => console.log("Status Session:", statusSession),
       {
         multidevice: true,
-        headless: true,
+        headless: "new",
       }
     );
   }
@@ -19,7 +47,7 @@ class WhatsAppService {
       const profile = await client.checkNumberStatus(formattedNumber);
       return profile.status === 200;
     } catch (error) {
-      console.error('Error checking number validity:', error);
+      console.error("Error checking number validity:", error);
       return false;
     }
   }
@@ -34,9 +62,13 @@ class WhatsAppService {
     return client.sendFileFromBase64(
       formattedNumber,
       base64PDF,
-      fileName || 'document.pdf',
+      fileName || "document.pdf",
       message
     );
+  }
+
+  formatPhoneNumber(number) {
+    return number.includes("@c.us") ? number : `${number}@c.us`;
   }
 }
 
