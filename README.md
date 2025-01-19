@@ -3,7 +3,9 @@
 [![Version](https://img.shields.io/github/tag/JuniorFreitas/dynamuszap-api.svg)](https://github.com/JuniorFreitas/dynamuszap-api/releases)
 [![Downloads](https://img.shields.io/github/downloads/JuniorFreitas/dynamuszap-api/total)](https://github.com/JuniorFreitas/dynamuszap-api/releases)
 [![Issues](https://img.shields.io/github/issues/JuniorFreitas/dynamuszap-api.svg)](https://github.com/JuniorFreitas/dynamuszap-api/issues)
-[![License](https://img.shields.io/github/license/JuniorFreitas/dynamuszap-api.svg)](https://github.com/JuniorFreitas/dynamuszap-api/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-gree.svg)](https://opensource.org/licenses/MIT)
+
+
 
 Este projeto é uma API desenvolvida para facilitar a integração de notificações e usabilidade de bots no WhatsApp, utilizando o [Venom Bot](https://github.com/orkestral/venom) para automação. Vale ressaltar que **não se trata de uma API oficial do WhatsApp** e, portanto, não possui as mesmas funcionalidades e limitações.
 
@@ -135,3 +137,8 @@ Este comando irá parar e remover os containers, mas deixará as imagens intacta
 ## Contribuições
 
 Se você deseja contribuir para este projeto, fique à vontade para criar um [pull request](https://github.com/JuniorFreitas/dynamuszap-api/pulls) ou relatar um [issue](https://github.com/JuniorFreitas/dynamuszap-api/issues) request. Certifique-se de seguir as diretrizes de codificação e incluir testes quando possível.
+
+
+## License
+
+Este projeto está licenciado sob a [MIT License](https://opensource.org/license/MIT).
