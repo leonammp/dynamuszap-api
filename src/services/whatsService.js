@@ -4,7 +4,7 @@ class WhatsAppService {
   static async addToQueue(sessionName, type, params) {
     const client = sessions.get(sessionName);
     if (!client) {
-      return { status: "ERROR", message: "Session not found" };
+      return { status: "error", message: "Sessão não encontrada" };
     }
 
     try {
