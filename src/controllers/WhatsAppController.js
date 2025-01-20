@@ -1,4 +1,4 @@
-const WhatsAppService = require("../services/WhatsappService.js");
+const WhatsAppService = require("../services/whatsAppService.js");
 const MenuService = require("../services/MenuService.js");
 const Session = require("../models/Session");
 const fs = require("fs");
