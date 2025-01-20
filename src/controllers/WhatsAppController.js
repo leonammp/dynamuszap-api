@@ -136,7 +136,7 @@ class WhatsAppController {
 
   async sendPdf(req, res) {
     try {
-      const { number, message, base64PDF, fileName } = req.body;
+      const { number, message, base64PDF, pdfPath, fileName } = req.body;
       const client = req.whatsappClient;
 
       const isValidNumber = await WhatsAppService.isValidWhatsAppNumber(
@@ -150,17 +150,89 @@ class WhatsAppController {
         });
       }
 
-      const result = await WhatsAppService.sendPdfDocument(
-        client,
-        number,
-        base64PDF,
-        fileName,
-        message
-      );
+      if (!base64PDF && !pdfPath) {
+        return res.status(400).json({
+          status: "error",
+          message: "É necessário fornecer base64PDF ou pdfPath",
+        });
+      }
+
+      let result;
+      if (base64PDF) {
+        result = await WhatsAppService.sendPdfDocument(
+          client,
+          number,
+          base64PDF,
+          fileName,
+          message
+        );
+      } else {
+        result = await WhatsAppService.sendPdfFromPath(
+          client,
+          number,
+          pdfPath,
+          fileName,
+          message
+        );
+      }
 
       res.json({
         status: "success",
         message: "PDF enviado com sucesso",
+        data: result,
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+  }
+
+  async sendImage(req, res) {
+    try {
+      const { number, caption, base64Image, imagePath } = req.body;
+      const client = req.whatsappClient;
+
+      const isValidNumber = await WhatsAppService.isValidWhatsAppNumber(
+        client,
+        number
+      );
+
+      if (!isValidNumber) {
+        return res.status(400).json({
+          status: "error",
+          message: "Número de WhatsApp inválido",
+        });
+      }
+
+      if (!base64Image && !imagePath) {
+        return res.status(400).json({
+          status: "error",
+          message: "É necessário fornecer base64Image ou imagePath",
+        });
+      }
+
+      let result;
+      if (base64Image) {
+        result = await WhatsAppService.sendImageBase64(
+          client,
+          number,
+          base64Image,
+          caption
+        );
+      } else {
+        result = await WhatsAppService.sendImage(
+          client,
+          number,
+          imagePath,
+          caption
+        );
+      }
+
+      res.json({
+        status: "success",
+        message: "Imagem enviada com sucesso",
         data: result,
       });
     } catch (error) {

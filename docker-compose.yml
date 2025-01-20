@@ -1,3 +1,4 @@
+name: dynamuszap
 services:
   dynamuszap-api:
     container_name: dynamuszap-api

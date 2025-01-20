@@ -6,6 +6,7 @@ const {
   sendMessageValidation,
   checkNumberValidation,
   sendPdfValidation,
+  sendImageValidation,
 } = require("../middleware/requestValidator");
 
 const router = express.Router();
@@ -155,4 +156,10 @@ router.post(
   WhatsAppController.sendPdf
 );
 
+router.post(
+  "/:sessionName/send-image",
+  sendImageValidation,
+  sessionValidator,
+  WhatsAppController.sendImage
+);
 module.exports = router;
