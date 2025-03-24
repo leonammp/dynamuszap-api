@@ -11,7 +11,11 @@ const apiLimiter = require("./middleware/rateLimiter");
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.ALLOWED_ORIGINS?.split(',')
+  })
+);
 app.use(express.json({ limit: APP_CONFIG.MAX_REQUEST_SIZE }));
 app.use(
   express.urlencoded({ limit: APP_CONFIG.MAX_REQUEST_SIZE, extended: true })
