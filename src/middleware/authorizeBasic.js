@@ -1,6 +1,6 @@
 const APP_CONFIG = require("../config/app.config");
 
-const authBasic = (req, res, next) => {
+const authorizeBasic = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Basic ")) {
@@ -25,4 +25,4 @@ const authBasic = (req, res, next) => {
   res.status(401).json({ message: "Credenciais inválidas" });
 };
 
-module.exports = authBasic;
+module.exports = authorizeBasic;
