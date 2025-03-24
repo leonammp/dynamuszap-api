@@ -17,6 +17,8 @@ const router = express.Router();
  *   post:
  *     summary: Start a new WhatsApp session
  *     tags: [Session]
+ *     security:
+ *       - BasicAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -52,6 +54,8 @@ router.post("/start", startSessionValidation, WhatsAppController.startSession);
  *   post:
  *     summary: Send a WhatsApp message
  *     tags: [Messages]
+ *     security:
+ *       - BasicAuth: []
  *     parameters:
  *       - in: path
  *         name: sessionName
@@ -88,6 +92,8 @@ router.post(
  *   post:
  *     summary: Check if a number exists on WhatsApp
  *     tags: [Validation]
+ *     security:
+ *       - BasicAuth: []
  *     parameters:
  *       - in: path
  *         name: sessionName
@@ -120,6 +126,8 @@ router.post(
  *   post:
  *     summary: Send a PDF document via WhatsApp
  *     tags: [Documents]
+ *     security:
+ *       - BasicAuth: []
  *     parameters:
  *       - in: path
  *         name: sessionName
