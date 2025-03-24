@@ -14,10 +14,13 @@ const options = {
         description: "API",
       },
     ],
-    security: [
-      { BasicAuth: [] }
-    ],
     components: {
+      securitySchemes: {
+        BasicAuth: {
+          type: 'http',
+          scheme: 'basic'
+        }
+      },
       schemas: {
         Error: {
           type: "object",
