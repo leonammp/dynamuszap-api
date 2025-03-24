@@ -6,7 +6,7 @@ const swaggerSpec = require("./config/swagger.config");
 const whatsappRoutes = require("./routes/whatsapp.routes");
 const errorHandler = require("./middleware/errorHandler");
 const apiLimiter = require("./middleware/rateLimiter");
-// const authorizeBasic = require("./middleware/authorizeBasic"); // Importa o middleware
+const authorizeBasic = require("./middleware/authorizeBasic");
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Limitação de taxa
-app.use("/api/", apiLimiter);
+app.use("/api/", apiLimiter, authorizeBasic);
 
 // Rotas
 app.use("/api/whatsapp", whatsappRoutes);
