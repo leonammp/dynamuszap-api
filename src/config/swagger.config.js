@@ -11,8 +11,11 @@ const options = {
     servers: [
       {
         url: process.env.URLBASE || "http://localhost:3000",
-        description: "Servidor de desenvolvimento",
+        description: "API",
       },
+    ],
+    security: [
+      { BasicAuth: [] }
     ],
     components: {
       schemas: {
